@@ -1,6 +1,6 @@
-//Made by: Mathew Dusome
-//Use to add grid.  Use the following:
-//  grid.gridHelp(window,WINDOW_WIDTH,WINDOW_HEIGHT)
+#Made by: Mathew Dusome
+#Use to add grid.  Use the following:
+#  grid.gridHelp(window,WINDOW_WIDTH,WINDOW_HEIGHT)
 
 def gridHelp(window,WINDOW_WIDTH,WINDOW_HEIGHT):
         spacer = 10
