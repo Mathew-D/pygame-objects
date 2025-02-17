@@ -1,18 +1,18 @@
-//Made by: Mathew Dusome
-//Adds 3 different button types
-//Create the button like with an action method:
-//btn_exit = objects.buttons.no_background(0,0,"Arial",12,(235, 64, 52),(98, 52, 235),"Click to Exit",exit)
-//To create a button without action built in:
-//  btn_exit = objects.buttons.no_background(0,0,"Arial",12,(235, 64, 52),(98, 52, 235),"Click to Exit")
-//Then either type you must draw the button in your display loop:
-//  btn_exit.draw(window)
-//With Action:
-//Then you must pass the mouse and event to the object during the for event loop with:
-//  btn_exit.update(pygame.mouse.get_pos(),event)
-//Without Action:
-//Then you must pass the mouse and event to the object during the for event loop with:
-//  if btn_exit.update(pygame.mouse.get_pos(),event):
-       sys.exit()   #Action to do
+#Made by: Mathew Dusome
+#Adds 3 different button types
+#Create the button like with an action method:
+#btn_exit = objects.buttons.no_background(0,0,"Arial",12,(235, 64, 52),(98, 52, 235),"Click to Exit",exit)
+#To create a button without action built in:
+#  btn_exit = objects.buttons.no_background(0,0,"Arial",12,(235, 64, 52),(98, 52, 235),"Click to Exit")
+#Then either type you must draw the button in your display loop:
+#  btn_exit.draw(window)
+#With Action:
+#Then you must pass the mouse and event to the object during the for event loop with:
+#  btn_exit.update(pygame.mouse.get_pos(),event)
+#Without Action:
+#Then you must pass the mouse and event to the object during the for event loop with:
+#  if btn_exit.update(pygame.mouse.get_pos(),event):
+#       sys.exit()   #Action to do
 
 
 
