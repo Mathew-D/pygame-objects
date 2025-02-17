@@ -1,7 +1,7 @@
 #Made by: Mathew Dusome
 #Use to add grid.  Use the following:
 #  grid.gridHelp(window,WINDOW_WIDTH,WINDOW_HEIGHT)
-
+import pygame
 def gridHelp(window,WINDOW_WIDTH,WINDOW_HEIGHT):
         spacer = 10
         font = pygame.font.SysFont('Consolas', 10)
