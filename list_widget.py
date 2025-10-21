@@ -16,6 +16,8 @@ import pygame
 #       list_widget.handle_event(event) 
 #If you want to update items use: 
 #       list_widget.set_items(list_of_items)
+#Change 2d list to 1d for easy display where result is the 2d list
+#    result_string = [' '.join(map(str, t)) for t in result]
 class ListWidget(pygame.sprite.Sprite):
     def __init__(self, x, y, width, height, items,font_size=36,system_font_name=None,download_font_name=None, item_height=40, margin=5,highlight_color=(255, 255, 255),text_color=(0, 0, 0),border_color=(0, 0, 0),highlight_color_bg=(100, 149, 237),background_color = (200, 200, 200)):
         super().__init__()
