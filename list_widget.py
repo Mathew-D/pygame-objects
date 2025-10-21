@@ -8,7 +8,8 @@ import pygame
 #Import the object with:
 #       import objects.list_widget
 #Make a copy of the object:
-#       list_widget = objects.list_widget.ListWidget(50, 50, 300, 200,[])list_widget = objects.list_widget.ListWidget(50, 50, 300, 200,list_of_items)
+#       list_widget = objects.list_widget.ListWidget(50, 50, 300, 200,[])
+#       list_widget = objects.list_widget.ListWidget(50, 50, 300, 200,list_of_items)
 #Display method or while loop: 
 #       list_widget.draw(window)
 #For event loop: 
