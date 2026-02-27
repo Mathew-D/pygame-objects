@@ -35,7 +35,7 @@ class still(pygame.sprite.Sprite):
 
 #must install
 #pip install PIL
-
+"""
 from PIL import Image, ImageSequence
 
 class animated(pygame.sprite.Sprite):
@@ -66,4 +66,4 @@ class animated(pygame.sprite.Sprite):
             frames.append(pygameImage)
         return frames
 
-
+"""
