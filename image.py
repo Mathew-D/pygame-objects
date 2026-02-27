@@ -3,6 +3,8 @@
 #To use images with transparency you need to use sprites.  To do this we have two main types, still and animated.
 #For animated you have install pillow to make it work so:
 #    pip install pillow 
+# Next add the import with:
+#    import objects.image as image
 #Next you have to import the file then can either use it directly or extend you class with it.  To use it directly you use go:
 #    object = image.still(10,20,200,100,"images/image_show.png")
 #Where:
