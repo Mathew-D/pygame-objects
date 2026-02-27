@@ -1,5 +1,7 @@
 #Made by: Mathew Dusome
 #Use to add grid.  Use the following:
+# First add the import:  import objects.grid as grid
+#Then in your display method you can use:
 #  grid.gridHelp(window,WINDOW_WIDTH,WINDOW_HEIGHT)
 import pygame
 def gridHelp(window,WINDOW_WIDTH,WINDOW_HEIGHT):
