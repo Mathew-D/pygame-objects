@@ -1,5 +1,7 @@
 #Made by: Mathew Dusome
 #Adds 3 different button types
+#To use add:
+# import objects.buttons
 #Create the button like with an action method:
 #btn_exit = objects.buttons.no_background(0,0,"Arial",12,(235, 64, 52),(98, 52, 235),"Click to Exit",exit)
 #To create a button without action built in:
