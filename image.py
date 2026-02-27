@@ -15,7 +15,8 @@
 #    100 --> height
 #    "images/image_show.png" --> image to show
 #You can now either add it to a group and draw the group or draw the object directly.
-
+# You must draw the image somewhere in display or your loop with:
+#    object.draw(window) 
 
 import pygame
 #custom object for still images
