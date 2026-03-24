@@ -1,14 +1,16 @@
 #Made by: Mathew Dusome
 #Added the DB options
-#To use:
-#  connection = create_connection('database_name.db')
-#  create_table(connection,"test",["first TEXT", "last TEXT"]) 
-#  insert_db(connection,"lesson",["firstname","lastname","age"],["zzz","xxx",211])
-#  result=select_db(connection,"test").fetchall()
-#  result = select_db(connection,"lesson",["first='bob'","lastname='ian'"]).fetchall()
-#  update_db(connection,"test",["first='joe'"],"id=4")
-#  update_db(connection,"test",["first='joe'","last='dusome'"],"id=4")
-#  delete_db(db_connection, "test", ["name", "year"], ["value of name", "value of year"])
+#Add the following into your screen using the database
+#import objects.database as db
+#To use the database use the following methods:
+#  connection = sb.create_connection('database_name.db')
+#  db.create_table(connection,"test",["first TEXT", "last TEXT"]) 
+#  db.insert_db(connection,"lesson",["firstname","lastname","age"],["zzz","xxx",211])
+#  result=db.select_db(connection,"test").fetchall()
+#  result = sb.select_db(connection,"lesson",["first='bob'","lastname='ian'"]).fetchall()
+#  db.update_db(connection,"test",["first='joe'"],"id=4")
+#  db.update_db(connection,"test",["first='joe'","last='dusome'"],"id=4")
+#  db.delete_db(db_connection, "test", ["name", "year"], ["value of name", "value of year"])
 import sqlite3 
 def create_connection(db_file):
     #create a database connection to the SQLite database
