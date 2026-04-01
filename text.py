@@ -13,7 +13,7 @@
 #To get text input you can use the custom object by first importing it.
 #  import objects.text
 #Then you create the object with:
-#    txt_name = custom_objects.text.input(10,400,200,100,'Consolas',30,(0,0,0),(255,255,255))
+#    txt_name = objects.text.input(10,400,200,100,'Consolas',30,(0,0,0),(255,255,255))
 #Where:
 #    text_name--> is the name of the text
 #    10 --> is the x starting spot
@@ -25,10 +25,11 @@
 #    (0,0,0) --> is the color of the writing when you aren't hoving over it
 #    (255,255,255) --> is the background color
 #Next you must either add them to a group then draw the group or draw them each directly with:
-#    btn_next.draw(window)
+#    txt_name.draw(window)
 #Then you must update either the group are each directly with in the Event loop:
-#    pos = pygame.mouse.get_pos()
-#    btn_next.update(pos,event)
+#    txt_name.update(pygame.mouse.get_pos(),event)
+#Then to read the text you would use:
+#    inputed_text = txtname.text
 
 import pygame
 def blit_text(surface, text, pos, font, color=pygame.Color('black')):
