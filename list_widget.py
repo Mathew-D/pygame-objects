@@ -8,16 +8,50 @@ import pygame
 #Import the object with:
 #       import objects.list_widget
 #Make a copy of the object:
+        #Empty List Widget:
 #       list_widget = objects.list_widget.ListWidget(50, 50, 300, 200,[])
+        
+        #List Widget with items of list called list_of_items:
 #       list_widget = objects.list_widget.ListWidget(50, 50, 300, 200,list_of_items)
+
 #Display method or while loop: 
 #       list_widget.draw(window)
 #For event loop: 
 #       list_widget.handle_event(event) 
 #If you want to update items use: 
 #       list_widget.set_items(list_of_items)
-#Change 2d list to 1d for easy display where result is the 2d list
-#    result_string = [' '.join(map(str, t)) for t in result]
+
+#More Examples:
+#       # ComboBox with the same item list
+#       combo_widget = objects.list_widget.ComboBox(50, 270, 300, 200, list_of_items)
+#
+#       # Using a system font
+#       list_widget = objects.list_widget.ListWidget(
+#           50, 50, 300, 200, list_of_items,
+#           font_size=28, system_font_name='Consolas'
+#       )
+#
+#       # Using a downloaded font file
+#       list_widget = objects.list_widget.ListWidget(
+#           50, 50, 300, 200, list_of_items,
+#           download_font_name='fonts/MyFont.ttf'
+#       )
+#
+#       # Minimal event loop + draw flow
+#       for event in pygame.event.get():
+#           list_widget.handle_event(event)
+#           combo_widget.handle_event(event)
+#       list_widget.draw(window)
+#       combo_widget.draw(window)
+#
+#       # Read selected item
+#       selected_from_list = list_widget.get_selected_item()
+#       selected_from_combo = combo_widget.get_selected_item()
+#
+#       # Convert list of tuples to display strings
+#       result = [('apple', 3), ('banana', 5), ('orange', 2)]
+#       result_string = [' '.join(map(str, t)) for t in result]
+#       list_widget.set_items(result_string)
 class ListWidget(pygame.sprite.Sprite):
     def __init__(self, x, y, width, height, items,font_size=36,system_font_name=None,download_font_name=None, item_height=40, margin=5,highlight_color=(255, 255, 255),text_color=(0, 0, 0),border_color=(0, 0, 0),highlight_color_bg=(100, 149, 237),background_color = (200, 200, 200)):
         super().__init__()
