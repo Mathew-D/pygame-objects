@@ -30,6 +30,46 @@
 #    txt_name.update(pygame.mouse.get_pos(),event)
 #Then to read the text you would use:
 #    inputed_text = txtname.text
+#More Examples:
+#    # Numbers only (char_list used as whitelist)
+#    score_input = objects.text.input(
+#        10, 460, 200, 40, 'Consolas', 28,
+#        (0,0,0), (255,255,255),
+#        max_length=6,
+#        char_list='0123456789'
+#    )
+#
+#    # Letters + spaces only (char_list whitelist)
+#    name_input = objects.text.input(
+#        10, 510, 260, 40, 'Consolas', 28,
+#        (0,0,0), (255,255,255),
+#        char_list='abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ '
+#    )
+#
+#    # Blacklist example: block digits while allowing everything else
+#    chat_input = objects.text.input(
+#        10, 560, 300, 40, 'Consolas', 28,
+#        (0,0,0), (255,255,255),
+#        char_list='0123456789',
+#        is_blacklist=True
+#    )
+#
+#    # Starting value + max length
+#    username_input = objects.text.input(
+#        10, 610, 260, 40, 'Consolas', 28,
+#        (0,0,0), (255,255,255),
+#        starting_text='Player1',
+#        max_length=12
+#    )
+#
+#    # Multi-line drawing helper usage
+#    font = pygame.font.SysFont('Consolas', 24)
+#    objects.text.blit_text(window, 'Line 1\nLine 2', (20, 20), font)
+#
+#    # Minimal event loop integration
+#    for event in pygame.event.get():
+#        txt_name.update(pygame.mouse.get_pos(), event)
+#    txt_name.draw(window)
 
 import pygame
 def blit_text(surface, text, pos, font, color=pygame.Color('black')):
