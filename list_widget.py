@@ -52,6 +52,14 @@ import pygame
 #       result = [('apple', 3), ('banana', 5), ('orange', 2)]
 #       result_string = [' '.join(map(str, t)) for t in result]
 #       list_widget.set_items(result_string)
+#       
+#       # Convert list of lists to display strings with more formatting
+#       result = [['apple', 3], ['banana', 5], ['orange', 2]]
+#       result_string = []
+#       for i in range(len(result)):
+#           temp_string = f"Name: {result[i][0]}  Amount: {result[i][1]} "
+#           result_string.append(temp_string)
+#           list_widget.set_items(result_string)
 class ListWidget(pygame.sprite.Sprite):
     def __init__(self, x, y, width, height, items,font_size=36,system_font_name=None,download_font_name=None, item_height=40, margin=5,highlight_color=(255, 255, 255),text_color=(0, 0, 0),border_color=(0, 0, 0),highlight_color_bg=(100, 149, 237),background_color = (200, 200, 200)):
         super().__init__()
