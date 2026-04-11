@@ -1,22 +1,42 @@
 #Made by: Mathew Dusome
-#Adds still images and animated images
-#To use images with transparency you need to use sprites.  To do this we have two main types, still and animated.
-#For animated you have install pillow to make it work so:
-#    pip install pillow 
-# Next add the import with:
+#Adds still images and animated images with transparency support using sprites
+#
+#SETUP:
+#For animated GIFs, install pillow:
+#    pip install pillow
+#
+#IMPORT:
 #    import objects.image as image
-#Next you have to import the file then can either use it directly or extend you class with it.  To use it directly you use go:
-#    object = image.still(10,20,200,100,"images/image_show.png")
-#Where:
-#    object --> is the name for the image
-#    10 --> starting x
-#    20 --> starting y
-#    200 --> width
-#    100 --> height
-#    "images/image_show.png" --> image to show
-#You can now either add it to a group and draw the group or draw the object directly.
-# You must draw the image somewhere in display or your loop with:
-#    object.draw(window) 
+#
+#USAGE PATTERN:
+#    1. Create image object (outside main loop)
+#    2. In DISPLAY LOOP: call image_obj.draw(window)
+#    3. For animated images in GAME LOOP: call image_obj.update()
+#
+#PARAMETERS FOR still CLASS:
+#    x, y          --> Starting position (top-left corner)
+#    width, height --> Size to scale the image to in pixels
+#    image_to_use  --> Path to the image file (e.g., "images/background.png")
+#
+#EXAMPLE 1: Still Image
+#    background = image.still(0, 0, 800, 600, "images/background.png")
+#    # In DISPLAY LOOP:
+#    #   background.draw(window)
+#
+#PARAMETERS FOR animated CLASS:
+#    x, y          --> Starting position (top-left corner)
+#    width, height --> Size to scale each frame to in pixels
+#    filename      --> Path to the GIF file (e.g., "images/player.gif")
+#    update_speed  --> Milliseconds between frame changes (e.g., 100 = 10 FPS)
+#
+#EXAMPLE 2: Animated Image (GIF)
+#    player_idle = image.animated(100, 200, 64, 64, "images/player_idle.gif", 100)
+#    # In DISPLAY LOOP:
+#    #   player_idle.draw(window)
+#    # In GAME LOOP:
+#    #   player_idle.update()
+#
+#NOTE: Always call draw() in your display loop; call update() in your game loop (animated only) 
 
 import pygame
 #custom object for still images

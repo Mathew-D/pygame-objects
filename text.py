@@ -1,75 +1,60 @@
 #Made by: Mathew Dusome
-#Date: 2022
-#Basic Text Input
-#Updated by: Spencer Puckrin
-#Oct 30 2024
-#added selection cursor, highlight colour, selecting location with mouse, and hold-to-spam button functonality.
-#allowed chars inspired by Riley Czarkowski
-#Multi-Line Text:
+#Updated by: Spencer Puckrin (Oct 30 2024)
+#Provides text rendering and text input field functionality
+#Features: multi-line text, custom input fields, character filtering, selection cursor, highlight color
+#
+#IMPORT:
 #    import objects.text
-#Then to use it go:
-#    objects.text.blit_text(window,text_to_write,(x,y),font_to_use)
-#Text Input
-#To get text input you can use the custom object by first importing it.
-#  import objects.text
-#Then you create the object with:
-#    txt_name = objects.text.input(10,400,200,100,'Consolas',30,(0,0,0),(255,255,255))
-#Where:
-#    text_name--> is the name of the text
-#    10 --> is the x starting spot
-#    400 --> is the y starting spot
-#    200 --> is the width
-#    100 --> is the height
-#    Consolas --> is the font name
-#    30 --> is the size
-#    (0,0,0) --> is the color of the writing when you aren't hoving over it
-#    (255,255,255) --> is the background color
-#Next you must either add them to a group then draw the group or draw them each directly with:
-#    txt_name.draw(window)
-#Then you must update either the group are each directly with in the Event loop:
-#    txt_name.update(pygame.mouse.get_pos(),event)
-#Then to read the text you would use:
-#    inputed_text = txtname.text
-#More Examples:
-#    # Numbers only (char_list used as whitelist)
-#    score_input = objects.text.input(
-#        10, 460, 200, 40, 'Consolas', 28,
-#        (0,0,0), (255,255,255),
-#        max_length=6,
-#        char_list='0123456789'
-#    )
 #
-#    # Letters + spaces only (char_list whitelist)
-#    name_input = objects.text.input(
-#        10, 510, 260, 40, 'Consolas', 28,
-#        (0,0,0), (255,255,255),
-#        char_list='abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ '
-#    )
+#USAGE PATTERN:
+#    1. Create text input object (outside main loop)
+#    2. In EVENT LOOP: call txt_name.update(pygame.mouse.get_pos(), event)
+#    3. In DISPLAY LOOP: call txt_name.draw(window)
 #
-#    # Blacklist example: block digits while allowing everything else
-#    chat_input = objects.text.input(
-#        10, 560, 300, 40, 'Consolas', 28,
-#        (0,0,0), (255,255,255),
-#        char_list='0123456789',
-#        is_blacklist=True
-#    )
+#PARAMETERS for input object:
+#    start_x, start_y    --> Position on screen (top-left)
+#    width, height        --> Size of input field
+#    font_name           --> Font name (e.g., 'Consolas', 'Arial')
+#    font_size           --> Font size in pixels
+#    text_color          --> Text color when inactive (RGB tuple)
+#    back_color          --> Background color (RGB tuple)
+#    text_hover_color    --> Text color when active (default: blue)
+#    back_hover_color    --> Background color when active (default: light blue)
+#    starting_text       --> Pre-filled text (default: empty)
+#    max_length          --> Maximum characters allowed (default: 20)
+#    text_offset         --> Padding inside field (default: (5,5))
+#    border_colour       --> Border color (default: black)
+#    char_list           --> Character filter: whitelist or blacklist
+#    is_blacklist        --> If True, char_list blocks those chars; if False, allows only those chars
 #
-#    # Starting value + max length
-#    username_input = objects.text.input(
-#        10, 610, 260, 40, 'Consolas', 28,
-#        (0,0,0), (255,255,255),
-#        starting_text='Player1',
-#        max_length=12
-#    )
-#
-#    # Multi-line drawing helper usage
+#EXAMPLE 1: Multi-line text
 #    font = pygame.font.SysFont('Consolas', 24)
-#    objects.text.blit_text(window, 'Line 1\nLine 2', (20, 20), font)
+#    objects.text.blit_text(window, 'Line 1\nLine 2\nLine 3', (20, 20), font)
 #
-#    # Minimal event loop integration
-#    for event in pygame.event.get():
-#        txt_name.update(pygame.mouse.get_pos(), event)
-#    txt_name.draw(window)
+#EXAMPLE 2: Basic text input field
+#    txt_name = objects.text.input(10, 400, 200, 40, 'Consolas', 30, (0,0,0), (255,255,255))
+#    # In EVENT LOOP:
+#    #   txt_name.update(pygame.mouse.get_pos(), event)
+#    # In DISPLAY LOOP:
+#    #   txt_name.draw(window)
+#    # Read text:
+#    #   inputed_text = txt_name.text
+#
+#EXAMPLE 3: Numbers only input
+#    score_input = objects.text.input(10, 460, 200, 40, 'Consolas', 28, (0,0,0), (255,255,255),
+#                                    max_length=6, char_list='0123456789')
+#
+#EXAMPLE 4: Letters and spaces only
+#    name_input = objects.text.input(10, 510, 260, 40, 'Consolas', 28, (0,0,0), (255,255,255),
+#                                   char_list='abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ ')
+#
+#EXAMPLE 5: Block specific characters (blacklist mode)
+#    chat_input = objects.text.input(10, 560, 300, 40, 'Consolas', 28, (0,0,0), (255,255,255),
+#                                   char_list='0123456789', is_blacklist=True)
+#
+#EXAMPLE 6: With starting text and max length
+#    username_input = objects.text.input(10, 610, 260, 40, 'Consolas', 28, (0,0,0), (255,255,255),
+#                                       starting_text='Player1', max_length=12)
 
 import pygame
 def blit_text(surface, text, pos, font, color=pygame.Color('black')):

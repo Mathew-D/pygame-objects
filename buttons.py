@@ -1,20 +1,54 @@
 #Made by: Mathew Dusome
-#Adds 3 different button types
-#To use add:
+#Adds 3 different button types: no_background, with_background, and with_images
+#
+#IMPORT:
 # import objects.buttons
-#Create the button like with an action method:
-#btn_exit = objects.buttons.no_background(0,0,"Arial",12,(235, 64, 52),(98, 52, 235),"Click to Exit",exit)
-#To create a button without action built in:
-#  btn_exit = objects.buttons.no_background(0,0,"Arial",12,(235, 64, 52),(98, 52, 235),"Click to Exit")
-#Then either type you must draw the button in your display loop:
-#  btn_exit.draw(window)
-#With Action:
-#Then you must pass the mouse and event to the object during the for event loop with:
-#  btn_exit.update(pygame.mouse.get_pos(),event)
-#Without Action:
-#Then you must pass the mouse and event to the object during the for event loop with:
-#  if btn_exit.update(pygame.mouse.get_pos(),event):
-#       sys.exit()   #Action to do
+#
+#USAGE PATTERN:
+#    1. Create button object (outside main loop)
+#    2. In EVENT LOOP: call button.update(pygame.mouse.get_pos(), event)
+#    3. In DISPLAY LOOP: call button.draw(window)
+#
+#PARAMETERS FOR no_background CLASS:
+#    start_x, start_y --> Starting position (top-left corner)
+#    font_name        --> Font name (e.g., 'Arial', 'Consolas')
+#    font_size        --> Font size in pixels
+#    text_color       --> Text color as RGB tuple (e.g., (235, 64, 52))
+#    hover_color      --> Text color when hovered as RGB tuple
+#    text             --> Text to display on button
+#
+#EXAMPLE 1: Button with just text (no_background)
+#    btn_exit = objects.buttons.no_background(0, 0, "Arial", 12, (235, 64, 52), (98, 52, 235), "Click to Exit")
+#
+#PARAMETERS FOR with_background CLASS:
+#    start_x, start_y     --> Starting position (top-left corner)
+#    width, height        --> Button dimensions in pixels
+#    font_name            --> Font name
+#    font_size            --> Font size in pixels
+#    back_color           --> Background color as RGB tuple
+#    text_color           --> Text color as RGB tuple
+#    hover_color          --> Text color when hovered as RGB tuple
+#    back_hover_color     --> Background color when hovered as RGB tuple
+#    text                 --> Text to display on button
+#
+#EXAMPLE 2: Button with text and background (with_background)
+#    btn_start = objects.buttons.with_background(100, 50, 200, 50, "Arial", 16, (50,50,50), (255,255,255), (255,200,0), (70,70,70), "Start Game")
+#
+#PARAMETERS FOR with_images CLASS:
+#    start_x, start_y  --> Starting position (top-left corner)
+#    width, height     --> Button dimensions in pixels
+#    image_no          --> Path to default image file
+#    image_hover       --> Path to hover image file
+#
+#EXAMPLE 3: Button with image (with_images)
+#    btn_image = objects.buttons.with_images(150, 100, 80, 80, "button_default.png", "button_hover.png")
+#
+#USAGE IN EVENT AND DISPLAY LOOPS:
+#    # In EVENT LOOP:
+#    if btn_exit.update(pygame.mouse.get_pos(), event):
+#        sys.exit()
+#    # In DISPLAY LOOP:
+#    btn_exit.draw(window)
 
 
 

@@ -1,58 +1,59 @@
-# Made By: Riley Czarkowski
-# Date: November 4, 2024
-# Purpose: Create additional default objects for use
-# Objects: Checkbox, Radio button
-
-"""
-Using Checkboxes:
-
-import objects.object
-def output(window):
-    check_box = object.check_box(50, 50) # Specify anything you want to customize but you only are required to give x and y coordinates by default
-    run = True
-    while run:
-        window.fill((255,255,255)) #White background
-        check_box.draw(window)
-        for event in pygame.event.get():
-            check_box.update(pygame.mouse.get_pos(),event) # Only update the checkbox
-            
-            # OR if you want to do something when the checkbox is clicked on
-            if check_box.update(pygame.mouse.get_pos(),event):
-                # Only run this when the checkbox is made active
-                if check_box.checkmark_active:
-                    # Do something...
-                # OR run code anytime the checkbox is clicked (active or not)
-                # Do something...
-                    
-                    
-Using Radio Buttons (grouped):
-
-import objects.object
-def output(window):
-    radio_button_group = object.ButtonGroup() # Custom sprite group wrapper
-    radio_button = object.radio_button(50, 100, button_group) # # Specify anything you want to customize but you only are required to give x and y coordinates, and the button group by default
-    radio_button_2 = object.radio_button(110, 100, button_group)
-    run = True
-    while run:
-        window.fill((255,255,255)) #White background
-        button_group.draw(window)
-        for event in pygame.event.get():
-            button_group.update(pygame.mouse.get_pos(),event) # Only update the radio buttons
-            
-            # OR if you want to do something when the checkbox is clicked on
-            for btn in radio_button_group:
-                    # Will only run for a button made active because whichever button is clicked is automatically made active in a radio button group
-                    if btn.update(pygame.mouse.get_pos(),event):
-                        # Do something... 
-                        
-*** YOU CAN ALSO PASS A FUNCTION AND ANY OF ITS ARGUMENTS TO ANY SPECIFIC BUTTON WHEN YOU CREATE IT. IT WILL RUN THIS FUNCTION WHENEVR IT IS CLICKED ON AND THE CHECKMARK IS MADE ACTIVE. ***
-Example:
-def log(message, name):
-    print(f'{name} says: {message}')
-                                                                                                                              function    arg 1      arg 2
-radio_button = new.radio_button(50, 100, button_group, True, 30, (255,255,255),(200,200,200),(100,100,100),(0,0,0),4,False,False,log,"Hello World!","Riley") # Can have as many or as little args as you want
-# The button still has the be drawn and updated but when you click on it now, it will run the log() function and print: "Riley says: Hello World!" to the console
-"""
+# Made By: Riley Czarkowski (November 4, 2024)
+# Provides checkbox and radio button widgets for pygame
+#
+# IMPORT:
+#    import objects.checkbox as checkbox
+#
+# USAGE PATTERN:
+#    1. Create checkbox/radio button object (outside main loop)
+#    2. In EVENT LOOP: call button.update(pygame.mouse.get_pos(), event)
+#    3. In DISPLAY LOOP: call button.draw(window)
+#
+# PARAMETERS FOR check_box CLASS:
+#    x, y                        --> Starting position (top-left corner)
+#    size                        --> Button size in pixels (default: 30)
+#    circular_button             --> Make button circular (default: False)
+#    background_colour           --> Background color as RGB tuple (default: white)
+#    background_hover_colour     --> Background color when hovered (default: light gray)
+#    background_disabled_colour  --> Background color when disabled (default: dark gray)
+#    checkmark_colour            --> Checkmark color as RGB tuple (default: black)
+#    checkmark_width             --> Checkmark line width in pixels (default: 4)
+#    active                      --> Initial checked state (default: False)
+#    disabled                    --> Disable checkbox (default: False)
+#    action                      --> Optional function to call when clicked
+#    *a_args                     --> Arguments for action function
+#
+# EXAMPLE 1: Basic checkbox
+#    check_box = checkbox.check_box(50, 50)
+#    # In EVENT LOOP:
+#    #   if check_box.update(pygame.mouse.get_pos(), event):
+#    #       if check_box.checkmark_active:
+#    #           print("Checkbox is checked")
+#    # In DISPLAY LOOP:
+#    #   check_box.draw(window)
+#
+# EXAMPLE 2: Checkbox with custom colors
+#    check_box = checkbox.check_box(50, 50, size=40, background_colour=(230,230,230),
+#                                  checkmark_colour=(255,0,0), checkmark_width=5)
+#
+# PARAMETERS FOR radio_button CLASS:
+#    x, y        --> Starting position (top-left corner)
+#    button_group --> ButtonGroup() object containing all radio buttons
+#    Other parameters same as check_box
+#
+# EXAMPLE 3: Radio button group
+#    radio_group = checkbox.ButtonGroup()
+#    radio_1 = checkbox.radio_button(50, 100, radio_group)
+#    radio_2 = checkbox.radio_button(110, 100, radio_group)
+#    # In EVENT LOOP:
+#    #   radio_group.update(pygame.mouse.get_pos(), event)
+#    # In DISPLAY LOOP:
+#    #   radio_group.draw(window)
+#
+# EXAMPLE 4: Button with action function
+#    def on_click(name):
+#        print(f"{name} was clicked")
+#    check_box = checkbox.check_box(50, 50, action=on_click, "My Button")
 
 import pygame
 
