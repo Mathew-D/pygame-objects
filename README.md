@@ -45,6 +45,9 @@ txt_input = objects.text.input(10, 400, 200, 40, 'Consolas', 30, (0,0,0), (255,2
 txt_input.update(pygame.mouse.get_pos(), event)
 txt_input.draw(window)
 entered_text = txt_input.text
+
+# Optional: multiline input with auto-wrapping
+notes_input = objects.text.input(10, 460, 300, 120, 'Consolas', 24, (0,0,0), (255,255,255), multiline=True)
 ```
 
 ### image.py

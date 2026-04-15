@@ -14,7 +14,7 @@
 #PARAMETERS for input object:
 #    start_x, start_y    --> Position on screen (top-left)
 #    width, height        --> Size of input field
-#    font_name           --> Font name (e.g., 'Consolas', 'Arial')
+#    font_name           --> System font name (e.g., 'Consolas', 'Arial')
 #    font_size           --> Font size in pixels
 #    text_color          --> Text color when inactive (RGB tuple)
 #    back_color          --> Background color (RGB tuple)
@@ -26,13 +26,15 @@
 #    border_colour       --> Border color (default: black)
 #    char_list           --> Character filter: whitelist or blacklist
 #    is_blacklist        --> If True, char_list blocks those chars; if False, allows only those chars
+#    multiline           --> If True, enables multi-line input with automatic line wrapping
+#    download_font_name  --> Path to downloaded font file (e.g., 'fonts/MyFont.ttf') - overrides font_name if provided
 #
 #EXAMPLE 1: Multi-line text
 #    font = pygame.font.SysFont('Consolas', 24)
 #    objects.text.blit_text(window, 'Line 1\nLine 2\nLine 3', (20, 20), font)
 #
-#EXAMPLE 2: Basic text input field
-#    txt_name = objects.text.input(10, 400, 200, 40, 'Consolas', 30, (0,0,0), (255,255,255))
+#EXAMPLE 2: Basic text input field - system font
+#    txt_name = objects.text.input(10, 400, 200, 40, font_name='Consolas', font_size=30, text_color=(0,0,0), back_color=(255,255,255))
 #    # In EVENT LOOP:
 #    #   txt_name.update(pygame.mouse.get_pos(), event)
 #    # In DISPLAY LOOP:
@@ -40,21 +42,33 @@
 #    # Read text:
 #    #   inputed_text = txt_name.text
 #
+#EXAMPLE 2b: Text input with downloaded font only
+#    txt_name = objects.text.input(10, 400, 200, 40, font_size=30, text_color=(0,0,0), back_color=(255,255,255),
+#                                 download_font_name='fonts/MyFont.ttf')
+#
 #EXAMPLE 3: Numbers only input
-#    score_input = objects.text.input(10, 460, 200, 40, 'Consolas', 28, (0,0,0), (255,255,255),
+#    score_input = objects.text.input(10, 460, 200, 40, font_name='Consolas', font_size=28, text_color=(0,0,0), back_color=(255,255,255),
 #                                    max_length=6, char_list='0123456789')
 #
 #EXAMPLE 4: Letters and spaces only
-#    name_input = objects.text.input(10, 510, 260, 40, 'Consolas', 28, (0,0,0), (255,255,255),
+#    name_input = objects.text.input(10, 510, 260, 40, font_name='Consolas', font_size=28, text_color=(0,0,0), back_color=(255,255,255),
 #                                   char_list='abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ ')
 #
 #EXAMPLE 5: Block specific characters (blacklist mode)
-#    chat_input = objects.text.input(10, 560, 300, 40, 'Consolas', 28, (0,0,0), (255,255,255),
+#    chat_input = objects.text.input(10, 560, 300, 40, font_name='Consolas', font_size=28, text_color=(0,0,0), back_color=(255,255,255),
 #                                   char_list='0123456789', is_blacklist=True)
 #
 #EXAMPLE 6: With starting text and max length
-#    username_input = objects.text.input(10, 610, 260, 40, 'Consolas', 28, (0,0,0), (255,255,255),
+#    username_input = objects.text.input(10, 610, 260, 40, font_name='Consolas', font_size=28, text_color=(0,0,0), back_color=(255,255,255),
 #                                       starting_text='Player1', max_length=12)
+#
+#EXAMPLE 7: Multi-line wrapped input field
+#    notes_input = objects.text.input(10, 660, 320, 120, font_name='Consolas', font_size=24, text_color=(0,0,0), back_color=(255,255,255),
+#                                    max_length=500, multiline=True)
+#
+#EXAMPLE 8: Multi-line input with downloaded font
+#    notes_input = objects.text.input(10, 660, 320, 120, font_size=24, text_color=(0,0,0), back_color=(255,255,255),
+#                                    max_length=500, multiline=True, download_font_name='fonts/MyFont.ttf')
 
 import pygame
 def blit_text(surface, text, pos, font, color=pygame.Color('black')):
@@ -75,13 +89,18 @@ def blit_text(surface, text, pos, font, color=pygame.Color('black')):
         x = pos[0]  # Reset the x.
         y += word_height  # Start on new row.
 class input(pygame.sprite.Sprite):
-    def __init__(self,start_x,start_y,width,height, font_name,font_size,text_color,back_color,text_hover_color=(0, 86, 179),back_hover_color=(230, 242, 255),starting_text="",max_length=20,text_offset=(5,5),border_colour=(0,0,0),char_list="",is_blacklist=False):
+    def __init__(self,start_x,start_y,width,height,font_name=None,font_size=24,text_color=(0,0,0),back_color=(255,255,255),text_hover_color=(0, 86, 179),back_hover_color=(230, 242, 255),starting_text="",max_length=20,text_offset=(5,5),border_colour=(0,0,0),char_list="",is_blacklist=False,multiline=False,download_font_name=None):
         super().__init__()
         self.image = pygame.Surface([width+4, height+4],pygame.SRCALPHA).convert_alpha()
         self.image.fill((0, 0, 0, 0))
         self.writing = pygame.Surface([width, height],pygame.SRCALPHA).convert_alpha()
        
-        self.font_used = pygame.font.SysFont(font_name, font_size)
+        if download_font_name:
+            self.font_used = pygame.font.Font(download_font_name, font_size)
+        elif font_name:
+            self.font_used = pygame.font.SysFont(font_name, font_size)
+        else:
+            self.font_used = pygame.font.SysFont('arial', font_size)
         self.font_size = font_size
        
         self.back_color=back_color
@@ -102,21 +121,158 @@ class input(pygame.sprite.Sprite):
         #a whitelist for characters. is is_blacklist is true it is used as a blacklist instead.
         self.char_list = char_list
         self.is_blacklist = is_blacklist
+        self.multiline = multiline
+        self.line_height = self.font_used.get_linesize()
 
         self.last_btn = (-1,"a")
         self.spam_delay = 0
 
 
         self.write()
+
+    def _allowed_char(self, char):
+        return self.char_list == "" or (not (char in self.char_list) == self.is_blacklist)
+
+    def _insert_char(self, char):
+        if len(self.text) < self.max_length and char != "" and self._allowed_char(char):
+            self.text = self.text[:self.select_loc] + char + self.text[self.select_loc:]
+            self.select_loc += 1
+
+    def _get_wrapped_lines(self):
+        # Keep track of source string index ranges so selection can map to wrapped lines.
+        max_width = max(1, self.writing.get_width() - (self.text_offset[0] * 2))
+        lines = []
+        line_start = 0
+        current = ""
+
+        for i, ch in enumerate(self.text):
+            if ch == "\n":
+                lines.append({"text": current, "start": line_start, "end": i})
+                current = ""
+                line_start = i + 1
+                continue
+
+            candidate = current + ch
+            if current == "" or self.font_used.size(candidate)[0] <= max_width:
+                current = candidate
+            else:
+                lines.append({"text": current, "start": line_start, "end": i})
+                line_start = i
+                current = ch
+
+        lines.append({"text": current, "start": line_start, "end": len(self.text)})
+
+        if len(lines) == 0:
+            lines = [{"text": "", "start": 0, "end": 0}]
+
+        return lines
+
+    def _closest_index_in_line(self, line_text, loc):
+        if len(line_text) == 0 or loc <= 0:
+            return 0
+
+        if loc >= self.font_used.size(line_text)[0]:
+            return len(line_text)
+
+        low = 0
+        high = len(line_text)
+        while low < high:
+            mid = (low + high) // 2
+            if self.font_used.size(line_text[:mid])[0] < loc:
+                low = mid + 1
+            else:
+                high = mid
+
+        right = low
+        left = max(0, right - 1)
+        left_width = self.font_used.size(line_text[:left])[0]
+        right_width = self.font_used.size(line_text[:right])[0]
+
+        if abs(loc - left_width) <= abs(right_width - loc):
+            return left
+        return right
+
+    def _cursor_pos_from_index(self):
+        if not self.multiline:
+            x = self.font_used.render(self.text[:self.select_loc], False, self.text_color).get_rect().width
+            return x, 0
+
+        lines = self._get_wrapped_lines()
+        for i, line in enumerate(lines):
+            if line["start"] <= self.select_loc <= line["end"]:
+                offset = self.select_loc - line["start"]
+                x = self.font_used.size(line["text"][:offset])[0]
+                y = i * self.line_height
+                return x, y
+
+        # Fallback to end of last visual line.
+        last = lines[-1]
+        return self.font_used.size(last["text"])[0], (len(lines) - 1) * self.line_height
+
+    def _select_location_multiline(self, x, y):
+        lines = self._get_wrapped_lines()
+        line_index = max(0, min(len(lines) - 1, y // self.line_height))
+        line = lines[line_index]
+        line_offset = self._closest_index_in_line(line["text"], x)
+        return line["start"] + line_offset
+
+    def _move_cursor_up(self):
+        """Move cursor up one line in multiline mode, preserving horizontal position."""
+        if not self.multiline:
+            self.select_loc = 0
+            return
+
+        lines = self._get_wrapped_lines()
+        cursor_x, cursor_y = self._cursor_pos_from_index()
+        current_line = cursor_y // self.line_height
+
+        if current_line > 0:
+            new_line = current_line - 1
+            line = lines[new_line]
+            new_index = self._closest_index_in_line(line["text"], cursor_x)
+            self.select_loc = line["start"] + new_index
+        else:
+            # Already on first line, move to its beginning
+            self.select_loc = 0
+
+    def _move_cursor_down(self):
+        """Move cursor down one line in multiline mode, preserving horizontal position."""
+        if not self.multiline:
+            self.select_loc = len(self.text)
+            return
+
+        lines = self._get_wrapped_lines()
+        cursor_x, cursor_y = self._cursor_pos_from_index()
+        current_line = cursor_y // self.line_height
+
+        if current_line < len(lines) - 1:
+            new_line = current_line + 1
+            line = lines[new_line]
+            new_index = self._closest_index_in_line(line["text"], cursor_x)
+            self.select_loc = line["start"] + new_index
+        else:
+            # Already on last line, move to its end
+            self.select_loc = len(self.text)
+
     def write(self):
         self.image.fill(self.border_colour)
-        if self.is_active:
-            self.text_surface = self.font_used.render(self.text, True, self.text_hover_color)      
-            self.writing.fill(self.back_hover_color)  
+        current_text_color = self.text_hover_color if self.is_active else self.text_color
+        current_back_color = self.back_hover_color if self.is_active else self.back_color
+
+        self.writing.fill(current_back_color)
+
+        if self.multiline:
+            lines = self._get_wrapped_lines()
+            for i, line in enumerate(lines):
+                y = self.text_offset[1] + (i * self.line_height)
+                if y + self.line_height > self.writing.get_height():
+                    break
+                line_surface = self.font_used.render(line["text"], True, current_text_color)
+                self.writing.blit(line_surface, (self.text_offset[0], y))
         else:
-            self.text_surface = self.font_used.render(self.text, True, self.text_color)      
-            self.writing.fill(self.back_color)  
-        self.writing.blit(self.text_surface,self.text_offset)
+            self.text_surface = self.font_used.render(self.text, True, current_text_color)
+            self.writing.blit(self.text_surface, self.text_offset)
+
         self.image.blit(self.writing, (2, 2))
         
     def update(self,pos,event):                    
@@ -126,7 +282,12 @@ class input(pygame.sprite.Sprite):
             self.blink = 0
             if self.is_active:
                 try:
-                    self.select_loc = self.select_location_binary_search(0,len(self.text),pygame.mouse.get_pos()[0]-self.rect.x-self.text_offset[0])
+                    local_x = pygame.mouse.get_pos()[0] - self.rect.x - self.text_offset[0]
+                    local_y = pygame.mouse.get_pos()[1] - self.rect.y - self.text_offset[1]
+                    if self.multiline:
+                        self.select_loc = self._select_location_multiline(local_x, local_y)
+                    else:
+                        self.select_loc = self.select_location_binary_search(0, len(self.text), local_x)
                 except:
                     self.select_loc = len(self.text)
         elif event.type == pygame.KEYDOWN and self.is_active:     
@@ -142,22 +303,25 @@ class input(pygame.sprite.Sprite):
         elif key == pygame.K_DELETE:
             if self.select_loc < len(self.text):
                 self.text = self.text[:self.select_loc]+self.text[self.select_loc+1:]
-        #elif key == pygame.K_RETURN:
-            #return(self.text)  # You can modify this to handle the entered text
-            #self.text = ""
+        elif key == pygame.K_RETURN or key == pygame.K_KP_ENTER:
+            if self.multiline:
+                self._insert_char("\n")
         elif key == pygame.K_LEFT and self.select_loc > 0:
             self.select_loc -= 1
             self.blink = 0
         elif key == pygame.K_RIGHT and self.select_loc < len(self.text):
             self.select_loc += 1
             self.blink = 0
-        elif key == pygame.K_DOWN or key == pygame.K_END:
-            self.select_loc = len(self.text)
+        elif key == pygame.K_DOWN:
+            self._move_cursor_down()
+            self.blink = 0
         elif key == pygame.K_UP:
-            self.select_loc = 0
-        elif len(self.text) < self.max_length and not char == "" and (self.char_list=="" or (not (char in self.char_list)==self.is_blacklist)):
-            self.text = self.text[:self.select_loc]+char+self.text[self.select_loc:] 
-            self.select_loc +=1
+            self._move_cursor_up()
+            self.blink = 0
+        elif key == pygame.K_END:
+            self.select_loc = len(self.text)
+        else:
+            self._insert_char(char)
         self.last_btn = (key,char)
         self.spam_delay = 30
         self.write() 
@@ -167,9 +331,8 @@ class input(pygame.sprite.Sprite):
         screen.blit(self.image,self.rect)
         if self.is_active:
             if self.blink < 0:
-                select_rect = self.font_used.render(self.text[:self.select_loc], False, self.text_color).get_rect()
-                
-                pygame.draw.rect(screen,self.text_hover_color,(self.rect.x+select_rect.width+self.text_offset[0],self.rect.y+self.text_offset[1],3,select_rect.height))
+                cursor_x, cursor_y = self._cursor_pos_from_index()
+                pygame.draw.rect(screen, self.text_hover_color, (self.rect.x + cursor_x + self.text_offset[0], self.rect.y + cursor_y + self.text_offset[1], 3, self.font_size))
             #makes the cursor blink            
             if self.blink < -30:
                 self.blink = 30
