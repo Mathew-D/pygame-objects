@@ -1,7 +1,7 @@
 #Made by: Mathew Dusome
 #Updated by: Spencer Puckrin (Oct 30 2024)
-#Provides text rendering and text input field functionality
-#Features: multi-line text, custom input fields, character filtering, selection cursor, highlight color
+#Provides text input field functionality
+#Features: custom input fields, character filtering, selection cursor, highlight color
 #
 #IMPORT:
 #    import objects.text
@@ -29,11 +29,7 @@
 #    multiline           --> If True, enables multi-line input with automatic line wrapping
 #    download_font_name  --> Path to downloaded font file (e.g., 'fonts/MyFont.ttf') - overrides font_name if provided
 #
-#EXAMPLE 1: Multi-line text
-#    font = pygame.font.SysFont('Consolas', 24)
-#    objects.text.blit_text(window, 'Line 1\nLine 2\nLine 3', (20, 20), font)
-#
-#EXAMPLE 2: Basic text input field - system font
+#EXAMPLE 1: Basic text input field - system font
 #    txt_name = objects.text.input(10, 400, 200, 40, font_name='Consolas', font_size=30, text_color=(0,0,0), back_color=(255,255,255))
 #    # In EVENT LOOP:
 #    #   txt_name.update(pygame.mouse.get_pos(), event)
@@ -42,52 +38,36 @@
 #    # Read text:
 #    #   inputed_text = txt_name.text
 #
-#EXAMPLE 2b: Text input with downloaded font only
+#EXAMPLE 1b: Text input with downloaded font only
 #    txt_name = objects.text.input(10, 400, 200, 40, font_size=30, text_color=(0,0,0), back_color=(255,255,255),
 #                                 download_font_name='fonts/MyFont.ttf')
 #
-#EXAMPLE 3: Numbers only input
+#EXAMPLE 2: Numbers only input
 #    score_input = objects.text.input(10, 460, 200, 40, font_name='Consolas', font_size=28, text_color=(0,0,0), back_color=(255,255,255),
 #                                    max_length=6, char_list='0123456789')
 #
-#EXAMPLE 4: Letters and spaces only
+#EXAMPLE 3: Letters and spaces only
 #    name_input = objects.text.input(10, 510, 260, 40, font_name='Consolas', font_size=28, text_color=(0,0,0), back_color=(255,255,255),
 #                                   char_list='abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ ')
 #
-#EXAMPLE 5: Block specific characters (blacklist mode)
+#EXAMPLE 4: Block specific characters (blacklist mode)
 #    chat_input = objects.text.input(10, 560, 300, 40, font_name='Consolas', font_size=28, text_color=(0,0,0), back_color=(255,255,255),
 #                                   char_list='0123456789', is_blacklist=True)
 #
-#EXAMPLE 6: With starting text and max length
+#EXAMPLE 5: With starting text and max length
 #    username_input = objects.text.input(10, 610, 260, 40, font_name='Consolas', font_size=28, text_color=(0,0,0), back_color=(255,255,255),
 #                                       starting_text='Player1', max_length=12)
 #
-#EXAMPLE 7: Multi-line wrapped input field
+#EXAMPLE 6: Multi-line wrapped input field
 #    notes_input = objects.text.input(10, 660, 320, 120, font_name='Consolas', font_size=24, text_color=(0,0,0), back_color=(255,255,255),
 #                                    max_length=500, multiline=True)
 #
-#EXAMPLE 8: Multi-line input with downloaded font
+#EXAMPLE 7: Multi-line input with downloaded font
 #    notes_input = objects.text.input(10, 660, 320, 120, font_size=24, text_color=(0,0,0), back_color=(255,255,255),
 #                                    max_length=500, multiline=True, download_font_name='fonts/MyFont.ttf')
 
 import pygame
-def blit_text(surface, text, pos, font, color=pygame.Color('black')):
-    #From https://stackoverflow.com/questions/42014195/rendering-text-with-multiple-lines-in-pygame
-    words = [word.split(' ') for word in text.splitlines()]  # 2D array where each row is a list of words.
-    space = font.size(' ')[0]  # The width of a space.
-    max_width, max_height = surface.get_size()
-    x, y = pos
-    for line in words:
-        for word in line:
-            word_surface = font.render(word, True, color)
-            word_width, word_height = word_surface.get_size()
-            if x + word_width >= max_width:
-                x = pos[0]  # Reset the x.
-                y += word_height  # Start on new row.
-            surface.blit(word_surface, (x, y))
-            x += word_width + space
-        x = pos[0]  # Reset the x.
-        y += word_height  # Start on new row.
+
 class input(pygame.sprite.Sprite):
     def __init__(self,start_x,start_y,width,height,font_name=None,font_size=24,text_color=(0,0,0),back_color=(255,255,255),text_hover_color=(0, 86, 179),back_hover_color=(230, 242, 255),starting_text="",max_length=20,text_offset=(5,5),border_colour=(0,0,0),char_list="",is_blacklist=False,multiline=False,download_font_name=None):
         super().__init__()

@@ -34,8 +34,7 @@ chk.draw(window)
 ```
 
 ### text.py
-Text rendering and input fields.
-- **blit_text()**: Render multi-line text with word wrapping
+Text input fields.
 - **input**: Custom text input field with character filtering and selection
 
 **Usage:**
@@ -48,6 +47,29 @@ entered_text = txt_input.text
 
 # Optional: multiline input with auto-wrapping
 notes_input = objects.text.input(10, 460, 300, 120, 'Consolas', 24, (0,0,0), (255,255,255), multiline=True)
+```
+
+### label.py
+Read-only text label widgets.
+- **label**: Read-only multiline sprite label with `set_text()` and `get_text()`
+
+**Usage:**
+lbl_title.set_text('Score: 10')
+lbl_title.draw(window)
+
+notes.draw(window)
+
+```python
+import objects.label
+lbl_title = objects.label.label(10, 10, 260, 48, font_name='Consolas', font_size=28, text='Score: 0')
+lbl_title.set_text('Score: 10')
+lbl_title.draw(window)
+
+lbl_notes = objects.label.label(10, 70, 300, 120, font_name='Consolas', font_size=24, text='Line 1\nLine 2\nLine 3')
+lbl_notes.draw(window)
+
+lbl_downloaded = objects.label.label(10, 200, 300, 48, font_size=30, text='Downloaded Font',
+                                    download_font_name='fonts/MyFont.ttf')
 ```
 
 ### image.py
