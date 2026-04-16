@@ -16,11 +16,12 @@
 #    font_name            --> System font name (e.g., 'Consolas', 'Arial')
 #    font_size            --> Font size in pixels
 #    text_color           --> Text color (RGB tuple)
-#    back_color           --> Background color (RGB tuple)
+#    back_color           --> Background color (RGB/RGBA tuple, default: transparent)
 #    text                 --> Starting label text
 #    text_offset          --> Padding inside label (default: (5,5))
 #    border_colour        --> Border color (default: black)
 #    download_font_name   --> Path to downloaded font file (overrides font_name)
+#    show_border          --> Draw border around label (default: True)
 #
 #EXAMPLE 1: Basic read-only label
 #    lbl_title = objects.label.label(20, 20, 220, 40, font_name='Consolas', font_size=28, text='Score: 0')
@@ -43,9 +44,14 @@
 import pygame
 
 class label(pygame.sprite.Sprite):
-    def __init__(self,start_x,start_y,width,height,font_name=None,font_size=24,text_color=(0,0,0),back_color=(255,255,255),text="",text_offset=(5,5),border_colour=(0,0,0),download_font_name=None):
+    def __init__(self,start_x,start_y,width,height,font_name=None,font_size=24,text_color=(0,0,0),back_color=(0,0,0,0),text="",text_offset=(5,5),border_colour=(0,0,0),download_font_name=None,show_border=True):
         super().__init__()
-        self.image = pygame.Surface([width+4, height+4],pygame.SRCALPHA).convert_alpha()
+        self.show_border = show_border
+
+        if self.show_border:
+            self.image = pygame.Surface([width+4, height+4],pygame.SRCALPHA).convert_alpha()
+        else:
+            self.image = pygame.Surface([width, height],pygame.SRCALPHA).convert_alpha()
         self.writing = pygame.Surface([width, height],pygame.SRCALPHA).convert_alpha()
 
         if download_font_name:
@@ -111,7 +117,9 @@ class label(pygame.sprite.Sprite):
         return wrapped_lines
 
     def write(self):
-        self.image.fill(self.border_colour)
+        self.image.fill((0,0,0,0))
+        if self.show_border:
+            pygame.draw.rect(self.image, self.border_colour, self.image.get_rect(), 2)
         self.writing.fill(self.back_color)
 
         lines = self._get_wrapped_lines()
@@ -122,7 +130,10 @@ class label(pygame.sprite.Sprite):
             line_surface = self.font_used.render(line, True, self.text_color)
             self.writing.blit(line_surface, (self.text_offset[0], y))
 
-        self.image.blit(self.writing, (2, 2))
+        if self.show_border:
+            self.image.blit(self.writing, (2, 2))
+        else:
+            self.image.blit(self.writing, (0, 0))
 
     def draw(self, screen):
         screen.blit(self.image,self.rect)
